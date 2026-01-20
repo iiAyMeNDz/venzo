@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Venzo BOT</title>
+    <link rel="icon" type="image/x-icon" href="./images/logo.png">
+    <meta content="#7c3aed" data-react-helmet="true" name="theme-color" />
+    <meta
+      name="title"
+      content="Venzo BOT - Take Your Family Server to the Next Level"
+    />
+    <meta
+      name="description"
+      content="Venzo BOT is a versatile Discord bot with features like Rost, leveling, Minecraft server status tracking, games, button roles, and a much more, designed to enhance server management and engagement."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="#" />
+    <meta
+      property="og:title"
+      content="Venzo BOT - Take Your Server to the Next Level"
+    />
+    <meta
+      property="og:description"
+      content="Venzo BOT is a versatile Discord bot with features like giveaways, leveling, Minecraft server status tracking, games, button roles, and a much more, designed to enhance server management and engagement."
+    />
+    <meta property="og:image" content="./images/logo.png" />
+    <meta property="og:color" content="#7c3aed" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="#" />
+    <meta
+      property="twitter:title"
+      content="Venzo BOT - Take Your Server to the Next Level"
+    />
+    <meta
+      property="twitter:description"
+      content="Venzo BOT is a versatile Discord bot with features like giveaways, leveling, Minecraft server status tracking, games, button roles, and a much more, designed to enhance server management and engagement."
+    />
+    <meta property="twitter:image" content="./images/logo.png" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom styles for purple theme */
+      .gradient-bg {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      }
+      
+      .gradient-text {
+        background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .feature-card {
+        background: rgba(139, 92, 246, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+        transition: all 0.3s ease;
+      }
+      
+      .feature-card:hover {
+        background: rgba(139, 92, 246, 0.1);
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        transform: translateY(-5px);
+      }
+      
+      .testimonial-card {
+        background: rgba(139, 92, 246, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.1);
+      }
+      
+      .nav-blur {
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      
+      /* Custom cube styles */
+      .custom-cube {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .custom-cube img {
+        transition: transform 0.3s ease;
+      }
+      
+      .custom-cube:hover img {
+        transform: scale(1.05);
+      }
+      
+      .custom-cube::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.8) 100%);
+        z-index: 1;
+      }
+    </style>
+    <link rel="stylesheet" href="css/styles.css" />
+    <script src="js/script.js"></script>
+    <script>
+      // دالة لجلب عدد أعضاء الديسكورد الحقيقي
+      async function getDiscordMembers() {
+        try {
+          // استبدل هذا بـ ID السيرفر الحقيقي الخاص بك
+          // يمكنك الحصول عليه من رابط الدعوة: https://discord.com/invite/SMDMyJVz
+          const response = await fetch('https://discord.com/api/guilds/123456789/widget.json');
+          if (response.ok) {
+            const data = await response.json();
+            document.getElementById('discord-members').textContent = data.members.length + ' Members';
+          }
+        } catch (error) {
+          console.error('Error fetching Discord members:', error);
+        }
+      }
+      
+      // دالة للقائمة المتنقلة
+      function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('hidden');
+      }
+      
+      // دالة للتمرير للأعلى
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // دالة للانتقال إلى لوحة التحكم
+      function goToPanel() {
+        window.open('panel.html', '_blank');
+      }
+      
+      // تشغيل الدوال عند تحميل الصفحة
+      document.addEventListener('DOMContentLoaded', function() {
+        getDiscordMembers();
+      });
+    </script>
+  </head>
+  <body
+    class="bg-black text-white max-h-[400px] overflow-y-auto [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-purple-500"
+  >
+    <div
+      id="loader"
+      class="fixed inset-0 bg-black z-50 flex items-center justify-center"
+    >
+      <div
+        class="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"
+      ></div>
+    </div>
+    <nav class="fixed w-full z-50 top-0">
+      <div class="nav-blur bg-black/30 border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-20">
+            <div class="flex items-center gap-2">
+              <img
+                src="images/logo.png"
+                alt="Venzo BOT Logo"
+                class="w-10 h-10 rounded-lg"
+              />
+              <span
+                class="text-2xl font-bold gradient-text"
+                >Venzo BOT</span
+              >
+            </div>
+
+            <div class="hidden md:flex gap-8">
+              <a
+                href="#hero"
+                class="text-white/70 hover:text-white transition-colors"
+                >Home</a
+              >
+              <a
+                href="#features"
+                class="text-white/70 hover:text-white transition-colors"
+                >Features</a
+              >
+              <a
+                href="#commands"
+                class="text-white/70 hover:text-white transition-colors"
+                >Commands</a
+              >
+              <a
+                href="#testimonials"
+                class="text-white/70 hover:text-white transition-colors"
+                >Testimonials</a
+              >
+              <a
+                href="#"
+                onclick="goToPanel(); return false;"
+                class="text-white/70 hover:text-white transition-colors"
+                >Panel</a
+              >
+            </div>
+
+            <div class="md:hidden">
+              <button onclick="toggleMobileMenu()" class="text-white p-2">
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    class="menu-icon"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            <a href="#" class="hidden md:block">
+              <button
+                class="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-lg transition-all duration-300 gradient-bg hover:opacity-90"
+              >
+                Add to Discord
+              </button>
+            </a>
+          </div>
+
+          <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-black/50 rounded-lg mt-2">
+              <a
+                href="https://i.pinimg.com/736x/75/d1/ee/75d1eeb90ec45c6135e18840e6aab6f2.jpg"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Home</a
+              >
+              <a
+                href="#features"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Features</a
+              >
+              <a
+                href="#commands"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Commands</a
+              >
+              <a
+                href="#testimonials"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Testimonials</a
+              >
+              <a
+                href="#"
+                onclick="goToPanel(); return false;"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Panel</a
+              >
+              <a
+                href="https://i.pinimg.com/736x/75/d1/ee/75d1eeb90ec45c6135e18840e6aab6f2.jpg"
+                class="block px-3 py-2 text-white/70 hover:text-white transition-colors"
+                >Add to Discord</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <section id="hero" class="min-h-screen relative overflow-hidden">
+      <div class="absolute inset-0 gradient-bg opacity-10"></div>
+      <div
+        class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/40 via-black to-black"
+      ></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div class="space-y-8 text-center lg:text-left mt-16 lg:mt-0">
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight">
+              Take Your Server to the
+              <span class="gradient-text"
+                >Next Level</span
+              >
+            </h1>
+            <p class="text-lg md:text-xl text-white/70">
+              The best bot for managing Grand RP Events,
+            </p>
+            <div
+              class="flex flex-col gap-4 sm:flex-row sm:gap-8 justify-center lg:justify-start"
+            >
+              <a
+                href="https://i.pinimg.com/736x/75/d1/ee/75d1eeb90ec45c6135e18840e6aab6f2.jpg"
+                class="inline-flex items-center justify-center gradient-bg px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-opacity duration-300"
+              >
+                Add to Discord
+              </a>
+              <a
+                href="#commands"
+                class="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 px-8 py-4 rounded-xl font-semibold transition-colors duration-300"
+              >
+                View Commands
+              </a>
+            </div>
+          </div>
+          <div class="relative">
+            <div class="lg:hidden"></div>
+            <div
+              class="lg:block hidden absolute inset-0 bg-purple-500 rounded-3xl blur-3xl opacity-20"
+            ></div>
+            <img
+              src="images/logo.png"
+              alt="Bot Dashboard"
+              class="relative rounded-3xl w-full max-w-md mx-auto sm:max-w-full md:w-auto hidden lg:block"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="features" class="py-32 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <h2 class="text-5xl font-bold mb-4">Features of Venzo BOT</h2>
+          <p class="text-xl text-white/70">
+            Everything you need to enhance and manage your Discord server with
+            ease.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="feature-card p-8 rounded-2xl">
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl mb-6 flex items-center justify-center text-2xl"
+            >
+              ⚡
+            </div>
+            <h3 class="text-2xl font-bold mb-4">99.9% Uptime</h3>
+            <p class="text-white/70">
+              Venzo BOT runs 24/7 with industry-leading uptime, ensuring your
+              server is always managed without interruptions.
+            </p>
+          </div>
+          <div class="feature-card p-8 rounded-2xl">
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl mb-6 flex items-center justify-center text-2xl"
+            >
+              🏆
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Smart Manager</h3>
+            <p class="text-white/70">
+              Keep your server active with Grand RP events and manage players efficiently.
+            </p>
+          </div>
+          <div class="feature-card p-8 rounded-2xl">
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl mb-6 flex items-center justify-center text-2xl"
+            >
+              👾
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Safe System</h3>
+            <p class="text-white/70">
+              Everything is organized with our secure system to keep your server safe.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="commands" class="py-32 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <h2 class="text-5xl font-bold mb-4">Commands</h2>
+          <p class="text-xl text-white/70">
+            Explore all available bot commands
+          </p>
+        </div>
+        <div class="space-y-6" id="commands-container"></div>
+      </div>
+    </section>
+    <section id="testimonials" class="py-32 relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-20">
+          <h2 class="text-5xl font-bold mb-4 text-white">What Our Users Say</h2>
+          <p class="text-xl text-white/70">
+            See how Venzo BOT is transforming Discord server management for our
+            users.
+          </p>
+        </div>
+        <div class="relative">
+          <div
+            class="flex overflow-x-auto space-x-8 pb-10 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:bg-purple-500 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full"
+          >
+            <div
+              class="testimonial-card feature-card p-8 rounded-2xl min-w-[400px] max-w-[500px]"
+            >
+              <div
+                class="w-16 h-16 gradient-bg rounded-full mb-6 flex items-center justify-center text-2xl"
+              >
+                <img
+                  class="rounded-full"
+                  src="./images/user.png"
+                  alt="User 1"
+                />
+              </div>
+              <p class="text-white/70 text-lg mb-4">
+                "This bot is an absolute game-changer! Managing my server has
+                never been easier. The features are robust, and the performance
+                is top-notch. Highly recommend it!"
+              </p>
+              <h4 class="text-xl font-bold text-white">Karar Altaqi</h4>
+              <p class="text-sm text-white/70">Server Admin</p>
+            </div>
+            <div
+              class="testimonial-card feature-card p-8 rounded-2xl min-w-[400px] max-w-[500px]"
+            >
+              <div
+                class="w-16 h-16 gradient-bg rounded-full mb-6 flex items-center justify-center text-2xl"
+              >
+                <img
+                  class="rounded-full"
+                  src="./images/user.png"
+                  alt="User 2"
+                />
+              </div>
+              <p class="text-white/70 text-lg mb-4">
+                "Venzo BOT is my new go-to for managing everything in my server.
+                The commands are intuitive, and the customization is fantastic!"
+              </p>
+              <h4 class="text-xl font-bold text-white">Wessam palstine</h4>
+              <p class="text-sm text-white/70">Server Admin</p>
+            </div>
+            <div
+              class="testimonial-card feature-card p-8 rounded-2xl min-w-[400px] max-w-[500px]"
+            >
+              <div
+                class="w-16 h-16 gradient-bg rounded-full mb-6 flex items-center justify-center text-2xl"
+              >
+                <img
+                  class="rounded-full"
+                  src="./images/user.png"
+                  alt="User 3"
+                />
+              </div>
+              <p class="text-white/70 text-lg mb-4">
+                "I was skeptical at first, but wow! This bot exceeded my
+                expectations. The auto-moderation is a lifesaver, and the
+                engagement features keep my members active!"
+              </p>
+              <h4 class="text-xl font-bold text-white">Hakim Frcha</h4>
+              <p class="text-sm text-white/70">Server Owner</p>
+            </div>
+            <div
+              class="testimonial-card feature-card p-8 rounded-2xl min-w-[400px] max-w-[500px]"
+            >
+              <div
+                class="w-16 h-16 gradient-bg rounded-full mb-6 flex items-center justify-center text-2xl"
+              >
+                <img
+                  class="rounded-full"
+                  src="./images/user.png"
+                  alt="User 4"
+                />
+              </div>
+              <p class="text-white/70 text-lg mb-4">
+                "A must-have for any serious Discord community. The support team
+                is great, and the bot runs smoother than any I've tried before!"
+              </p>
+              <h4 class="text-xl font-bold text-white">Jojo amk </h4>
+              <p class="text-sm text-white/70">Server Owner</p>
+            </div>
+            <div
+              class="testimonial-card feature-card p-8 rounded-2xl min-w-[400px] max-w-[500px]"
+            >
+              <div
+                class="w-16 h-16 gradient-bg rounded-full mb-6 flex items-center justify-center text-2xl"
+              >
+                <img
+                  class="rounded-full"
+                  src="./images/user.png"
+                  alt="User 5"
+                />
+              </div>
+              <p class="text-white/70 text-lg mb-4">
+                "I replaced three different bots with this one! It does
+                everything I need and more. The customization options are next
+                level."
+              </p>
+              <h4 class="text-xl font-bold text-white">Eagle oruspo </h4>
+              <p class="text-sm text-white/70">Server Admin</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="bg-black min-h-screen flex flex-col items-center justify-center p-4 sm:p-8 md:p-16 lg:p-32"
+    >
+      <div class="text-center mb-20">
+        <h2 class="text-5xl font-bold mb-4 text-white">Connect With Us</h2>
+        <p class="text-xl text-white/70">
+          Join our community and stay connected.
+        </p>
+      </div>
+      <div
+        class="w-full max-w-2xl flex flex-col gap-8 items-center sm:px-6 lg:px-8"
+      >
+        <!-- المكعب الجديد -->
+        <div
+          class="bg-white/5 border border-white/10 rounded-2xl p-6 w-full max-w-md transition-colors feature-card"
+        >
+          <div class="flex items-center gap-4 mb-6">
+            <img
+              src="images/logo.png"
+              alt="Server Icon"
+              class="w-12 h-12 rounded-xl"
+            />
+            <div>
+              <h3 class="text-white text-xl font-bold">Venzo Community</h3>
+              <p class="text-white/70 text-sm">Official Discord Server</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4 text-white/70 text-sm">
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                <span>699 Online</span>
+              </div>
+              <div class="w-1 h-1 rounded-full bg-white/20"></div>
+              <span id="discord-members">Loading Members...</span>
+            </div>
+            <a
+              href="https://discord.gg/SMDMyJVz"
+              target="_blank"
+              class="bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            >
+              Join Server
+            </a>
+          </div>
+        </div>
+
+        <div
+          class="bg-white/5 border border-white/10 rounded-2xl p-6 w-full max-w-md transition-colors feature-card"
+        >
+          <div class="flex items-center gap-4 mb-6">
+            <img
+              src="images/gg.png"
+              alt="Server Icon"
+              class="w-12 h-12 rounded-xl"
+            />
+            <div>
+              <h3 class="text-white text-xl font-bold">Venzo Devloper</h3>
+              <p class="text-white/70 text-sm">Official Venzo Devloper</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4 text-white/70 text-sm">
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                <span>Aymen</span>
+              </div>
+              <div class="w-1 h-1 rounded-full bg-white/20"></div>
+              <span id="discord-members"> </span>
+            </div>
+            <a
+              href="https://guns.lol/xaymenx"
+              target="_blank"
+              class="bg-[#5865F2] hover:bg-[#4752C4] text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            >
+              Visit Profile
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-center py-16">
+        <button
+          onclick="scrollToTop()"
+          class="group bg-white/5 border border-white/10 rounded-2xl p-4 transition-all hover:border-purple-500"
+        >
+          <svg
+            class="w-6 h-6 text-white/70 group-hover:text-white transition-colors"
+            fill="none"
+            viewbox="0 0 24 24"
+            stroke="currentcolor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 10l7-7m0 0l7 7m-7-7v18"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <footer class="text-white py-16 border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <div>
+            <img
+              class="h-10 mb-6"
+              src="./images/logo.png"
+              alt="Venzo BOT Logo"
+            />
+            <p class="text-lg text-white/70">
+              Venzo BOT is the ultimate tool for transforming your Discord server
+              management with powerful features !
+            </p>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-4">
+              <li>
+                <a href="#hero" class="text-white/70 hover:text-white">Home</a>
+              </li>
+              <li>
+                <a href="#features" class="text-white/70 hover:text-white"
+                  >Features</a
+                >
+              </li>
+              <li>
+                <a href="#commands" class="text-white/70 hover:text-white"
+                  >Commands</a
+                >
+              </li>
+              <li>
+                <a href="#testimonials" class="text-white/70 hover:text-white"
+                  >Testimonials</a
+                >
+              </li>
+              <li>
+                <a href="#" onclick="goToPanel(); return false;" class="text-white/70 hover:text-white"
+                  >Panel</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-xl font-semibold mb-4">Follow Us</h4>
+            <ul class="space-y-4">
+              <li>
+                <a href="#" class="text-white/70 hover:text-white">Invite</a>
+              </li>
+              <li>
+                <a href="https://discord.gg/SMDMyJVz" target="_blank" class="text-white/70 hover:text-white">Discord</a>
+              </li>
+              <li>
+                <a href="https://guns.lol/xaymenx" target="_blank" class="text-white/70 hover:text-white">Developer</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-12 border-t border-white/20 pt-6 text-center">
+          <p class="text-sm text-white/50">
+            © 2025 Venzo BOT. All rights reserved. • Not affiliated with Discord
+            Inc.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
